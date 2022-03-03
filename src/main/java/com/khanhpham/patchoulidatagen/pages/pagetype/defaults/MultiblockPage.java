@@ -9,7 +9,8 @@ import net.minecraft.network.chat.Component;
 import javax.annotation.Nullable;
 
 /**
- * @see <a href="https://vazkiimods.github.io/Patchouli/docs/patchouli-basics/page-types/#crafting-recipe-pages">Defaylt Page Types - Multiblock Pages</a>
+ * This page is used to display a multiblock structure
+ * @see <a href="https://vazkiimods.github.io/Patchouli/docs/patchouli-basics/page-types/#multiblock-pages">Defaylt Page Types - Multiblock Pages</a>
  */
 public class MultiblockPage implements PageType {
     private final String multiblockName;

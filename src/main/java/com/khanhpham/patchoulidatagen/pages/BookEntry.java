@@ -15,7 +15,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.function.Consumer;
 
-public class BookEntry implements BookElement {
+public final class BookEntry implements BookElement {
 
     private final String saveName;
     @Nonnull
@@ -55,6 +55,10 @@ public class BookEntry implements BookElement {
         this.sortNum = sortNum;
         this.turnIn = turnIn;
     }
+
+    public static Builder setup() {
+        return Builder.entry();
+    };
 
     @Override
     public String getSaveName() {
@@ -102,10 +106,8 @@ public class BookEntry implements BookElement {
         private Integer sortNum;
         private String turnIn;
         private boolean isDisplaySet = false;
-        private boolean isDisplayComponentSet = false;
-        private boolean isDisplayStringSet = false;
 
-        public static Builder entry() {
+        private static Builder entry() {
             return new Builder();
         }
 
@@ -143,20 +145,16 @@ public class BookEntry implements BookElement {
         }
 
         public Builder display(String entryName, ItemLike icon) {
-            if (!this.isDisplayComponentSet) {
-                this.name = entryName;
-                this.icon = icon;
-                this.isDisplaySet = true;
-                this.isDisplayStringSet = true;
-            } else
-                throw new IllegalStateException("Used a string entry name while TranslatableComponent entry name is already set");
-
+            this.name = entryName;
+            this.icon = icon;
+            this.isDisplaySet = true;
             return this;
         }
 
-        public Builder display(TranslatableComponent entryName, ItemLike icon) {
-            this.name = entryName.getKey();
+        public Builder display(TranslatableComponent entryNameTranslatable, ItemLike icon) {
+            this.name = entryNameTranslatable.getKey();
             this.icon = icon;
+            this.isDisplaySet = true;
             return this;
         }
 
@@ -167,7 +165,7 @@ public class BookEntry implements BookElement {
 
         public BookEntry build(Consumer<BookElement> consumer, String saveName) {
             if (category == null || !isDisplaySet) {
-                throw new IllegalStateException("Missing parent category or entry display is unset");
+                throw new IllegalStateException("Missing parent category or entry display");
             }
             BookEntry entry = new BookEntry(saveName, category, name, icon, pages, advancement, configFlag, priority, secret, readByDefault, sortNum, turnIn);
             consumer.accept(entry);

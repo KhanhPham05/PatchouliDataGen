@@ -33,8 +33,8 @@ public class PatchouliGeneratorImpl extends PatchouliBookProvider {
         SpotlightPage spotlightPage = SpotlightPage.Builder.setup().item(Items.ITEM_FRAME).build();
         EntityPage entityPage = EntityPage.setup().entity(EntityType.CHICKEN).build();
 
-        BookEntry.Builder.entry().category(category1).display("Test First Entry", Items.DIAMOND_SWORD).addPage(smeltingPage).addPage(spotlightPage).build(consumer, "test_entry_category_one");
-        BookEntry.Builder.entry().category(category2).display("Test Second Entry", Items.GOLD_BLOCK).addPage(textPage).addPage(multiblockPage).addPage(entityPage).addPage(crafting).build(consumer, "test_entry_category_2");
+        BookEntry.setup().category(category1).display("Test First Entry", Items.DIAMOND_SWORD).addPage(smeltingPage).addPage(spotlightPage).build(consumer, "test_entry_category_one");
+        BookEntry.setup().category(category2).display("Test Second Entry", Items.GOLD_BLOCK).addPage(textPage).addPage(multiblockPage).addPage(entityPage).addPage(crafting).build(consumer, "test_entry_category_2");
     }
 
     private TranslatableComponent translate(String key) {

@@ -12,9 +12,10 @@ import javax.annotation.Nullable;
 
 /**
  * This page is used to display an image
+ *
  * @see <a href="https://vazkiimods.github.io/Patchouli/docs/patchouli-basics/page-types/#image-pages">Default Page Types - Images</a>
  */
-public class ImagePage implements PageType {
+public final class ImagePage implements PageType {
     private final ResourceLocation[] images;
     @Nullable
     private final String title;
@@ -23,7 +24,7 @@ public class ImagePage implements PageType {
     @Nullable
     private final String text;
 
-    public ImagePage(ResourceLocation[] images, @Nullable String title, @Nullable Boolean border, @Nullable String text) {
+    private ImagePage(ResourceLocation[] images, @Nullable String title, @Nullable Boolean border, @Nullable String text) {
         this.images = images;
         this.title = title;
         this.border = border;
@@ -54,14 +55,11 @@ public class ImagePage implements PageType {
         @Nullable
         private Boolean border = null;
 
+        @Nullable
         private String text;
-        private boolean textText = false;
-        private boolean textComponent = false;
 
         @Nullable
         private String title = null;
-        private boolean isTitleText = false;
-        private boolean isTitleComponent = false;
 
         public static Builder setup() {
             return new Builder();
@@ -78,35 +76,22 @@ public class ImagePage implements PageType {
         }
 
         public Builder title(String title) {
-            if (!this.isTitleComponent) {
-                this.title = title;
-                this.isTitleText = true;
-            } else throw new IllegalStateException("Title TranslatableComponent is already set");
-
+            this.title = title;
             return this;
         }
 
         public Builder title(TranslatableComponent title) {
-            if (!this.isTitleText) {
-                this.title = title.getKey();
-                this.isTitleComponent = true;
-            } else throw new IllegalStateException("Title String is already set");
+            this.title = title.getKey();
             return this;
         }
 
         public Builder text(String text) {
-            if (!this.textComponent) {
-                this.text = text;
-                this.textText = true;
-            } else throw new IllegalStateException("text TranslatableComponent is already set");
+            this.text = text;
             return this;
         }
 
         public Builder text(TranslatableComponent text) {
-            if (!this.textText) {
-                this.text = text.getKey();
-                this.textComponent = true;
-            } else throw new IllegalStateException("Text String is already set");
+            this.text = text.getKey();
 
             return this;
         }

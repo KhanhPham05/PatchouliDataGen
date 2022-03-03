@@ -9,7 +9,7 @@ import net.minecraft.world.level.block.state.properties.Property;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class PatchouliMultiblock {
+public final class PatchouliMultiblock {
     private final List<List<String>> multiblock;
     private final Map<Character, String> mappings;
 
@@ -34,14 +34,6 @@ public class PatchouliMultiblock {
             layer.forEach(singleLayerArray::add);
             allLayersArray.add(singleLayerArray);
         });
-
-        /*for (String[] allLayers : multiblock) {
-            for (String singleLayer : allLayers) {
-                JsonArray singleLayerArray = new JsonArray();
-                singleLayerArray.add(singleLayer);
-                allLayersArray.add(singleLayerArray);
-            }
-        }*/
 
         json.add("pattern", allLayersArray);
 
