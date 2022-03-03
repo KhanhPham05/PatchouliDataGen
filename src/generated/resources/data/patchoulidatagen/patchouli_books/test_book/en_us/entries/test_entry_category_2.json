@@ -1,0 +1,46 @@
+{
+  "name": "Test Second Entry",
+  "category": "patchoulidatagen:test_second_category",
+  "icon": "minecraft:gold_block",
+  "pages": [
+    {
+      "type": "patchouli:image",
+      "images": [
+        "minecraft:textures/block/acacia_log.png"
+      ]
+    },
+    {
+      "type": "patchouli:multiblock",
+      "name": "Test Multiblock",
+      "multiblock": {
+        "mapping": {
+          "0": "minecraft:dirt",
+          "A": "minecraft:dirt"
+        },
+        "pattern": [
+          [
+            "A   0",
+            "A   A"
+          ],
+          [
+            "AAAAA",
+            "AAAAA"
+          ]
+        ]
+      }
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "minecraft:crafting_table"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "This is a text page",
+      "title": "Test Page Title"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "minecraft:chicken"
+    }
+  ]
+}

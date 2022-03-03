@@ -1,0 +1,19 @@
+modLoader = "javafml"
+loaderVersion = "[39]"
+license = "All Right Reverse"
+
+[[mods]]
+modId = "patchoulidatagen"
+version = "1.0"
+displayName = "Patchouli DataGen"
+credits = "KhanhPham aka KhanhTypo"
+description = '''
+    A fully functioned patchouli book data gen for you so you don't have to manually write everything
+'''
+
+[[dependencies.patchoulidatagen]]
+    modId = "minecraft"
+    mandatory = true
+    versionRange = "[1.18.1]"
+    ordering = "NONE"
+    side = "BOTH"

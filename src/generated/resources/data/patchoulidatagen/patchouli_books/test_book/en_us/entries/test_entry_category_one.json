@@ -1,0 +1,16 @@
+{
+  "name": "Test First Entry",
+  "category": "patchoulidatagen:test",
+  "icon": "minecraft:diamond_sword",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "minecraft:item_frame"
+    },
+    {
+      "type": "patchouli:smelting",
+      "recipe": "minecraft:stone",
+      "recipe2": "minecraft:smooth_stone"
+    }
+  ]
+}
