@@ -1,4 +1,4 @@
-package com.khanhpham.patchoulidatagen.pages;
+package com.khanhpham.patchoulidatagen.bookelement;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;

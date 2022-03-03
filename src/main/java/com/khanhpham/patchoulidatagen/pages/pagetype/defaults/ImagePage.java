@@ -31,6 +31,10 @@ public final class ImagePage implements PageType {
         this.text = text;
     }
 
+    public static Builder setup() {
+        return Builder.setup();
+    }
+
     @Override
     public String getPageType() {
         return "image";
@@ -61,7 +65,7 @@ public final class ImagePage implements PageType {
         @Nullable
         private String title = null;
 
-        public static Builder setup() {
+        private static Builder setup() {
             return new Builder();
         }
 
@@ -92,7 +96,6 @@ public final class ImagePage implements PageType {
 
         public Builder text(TranslatableComponent text) {
             this.text = text.getKey();
-
             return this;
         }
 

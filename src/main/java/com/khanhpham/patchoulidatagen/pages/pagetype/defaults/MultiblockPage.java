@@ -2,7 +2,7 @@ package com.khanhpham.patchoulidatagen.pages.pagetype.defaults;
 
 import com.google.gson.JsonObject;
 import com.khanhpham.patchoulidatagen.Utils;
-import com.khanhpham.patchoulidatagen.pages.PatchouliMultiblock;
+import com.khanhpham.patchoulidatagen.utils.PatchouliMultiblock;
 import com.khanhpham.patchoulidatagen.pages.pagetype.PageType;
 import net.minecraft.network.chat.Component;
 
@@ -12,7 +12,7 @@ import javax.annotation.Nullable;
  * This page is used to display a multiblock structure
  * @see <a href="https://vazkiimods.github.io/Patchouli/docs/patchouli-basics/page-types/#multiblock-pages">Defaylt Page Types - Multiblock Pages</a>
  */
-public class MultiblockPage implements PageType {
+public final class MultiblockPage implements PageType {
     private final String multiblockName;
 
     private final PatchouliMultiblock multiblock;
@@ -34,6 +34,10 @@ public class MultiblockPage implements PageType {
         this.text = text;
     }
 
+    public static Builder setup() {
+        return Builder.setup();
+    }
+
     @Override
     public String getPageType() {
         return "multiblock";
@@ -42,10 +46,10 @@ public class MultiblockPage implements PageType {
     @Override
     public void toJson(JsonObject json) {
         json.addProperty("name", this.multiblockName);
+        json.add("multiblock", this.multiblock.toJson());
         Utils.optional(json, "multiblock_id", this.multiblockId);
         Utils.optional(json, "enable_visualize", this.enableVisualize);
         Utils.optional(json, "text", this.text);
-        json.add("multiblock", this.multiblock.toJson());
     }
 
     public static final class Builder {
@@ -59,7 +63,7 @@ public class MultiblockPage implements PageType {
         private Builder() {
         }
 
-        public static Builder setup() {
+        private static Builder setup() {
             return new Builder();
         }
 

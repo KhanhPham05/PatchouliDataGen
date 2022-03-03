@@ -1,4 +1,4 @@
-package com.khanhpham.patchoulidatagen.data;
+package data;
 
 import com.khanhpham.patchoulidatagen.Names;
 import net.minecraft.advancements.critereon.EntityPredicate;

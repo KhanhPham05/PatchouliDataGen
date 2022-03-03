@@ -9,12 +9,12 @@ public interface PageType {
     /**
      * Overwrite this if you have a custom page type
      */
-    default ResourceLocation toRl() {
+    default ResourceLocation getPageTypeLocation() {
         return new ResourceLocation("patchouli", getPageType());
     }
 
     default String getPageTypeId() {
-        return toRl().toString();
+        return getPageTypeLocation().toString();
     };
 
     void toJson(JsonObject json);

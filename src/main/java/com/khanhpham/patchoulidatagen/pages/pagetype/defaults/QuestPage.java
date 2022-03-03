@@ -7,7 +7,11 @@ import net.minecraft.network.chat.TranslatableComponent;
 
 import javax.annotation.Nullable;
 
-public class QuestPage implements PageType {
+/**
+ * This page is used to mark an entry with a "?"
+ *  * @see <a href="https://vazkiimods.github.io/Patchouli/docs/patchouli-basics/page-types/#quest-pages">Defaylt Page Types - Quest Pages</a>
+ */
+public final class QuestPage implements PageType {
     @Nullable private final String trigger;
     @Nullable private final String title;
     @Nullable private final String text;
@@ -33,72 +37,49 @@ public class QuestPage implements PageType {
     public static final class Builder {
         @Nullable
         private String trigger;
-        private boolean triggerText = false;
-        private boolean triggerComponent = false;
 
         @Nullable
         private String text = null;
-        private boolean textText = false;
-        private boolean textComponent = false;
 
         @Nullable
         private String title = null;
-        private boolean isTitleText = false;
-        private boolean isTitleComponent = false;
 
         public static Builder setup() {
             return new Builder();
         }
 
         public Builder trigger(String title) {
-            if (!this.triggerComponent) {
-                this.trigger = title;
-                this.triggerText = true;
-            } else throw new IllegalStateException("Trigger TranslatableComponent is already set");
-
+            this.trigger = title;
             return this;
         }
 
         public Builder trigger(TranslatableComponent title) {
-            if (!this.triggerText) {
-                this.trigger = title.getKey();
-                this.triggerComponent = true;
-            } else throw new IllegalStateException("Trigger String is already set");
+            this.trigger = title.getKey();
             return this;
         }
 
         public Builder title(String title) {
-            if (!this.isTitleComponent) {
-                this.title = title;
-                this.isTitleText = true;
-            } else throw new IllegalStateException("Title TranslatableComponent is already set");
-
+            this.title = title;
             return this;
         }
 
         public Builder title(TranslatableComponent title) {
-            if (!this.isTitleText) {
-                this.title = title.getKey();
-                this.isTitleComponent = true;
-            } else throw new IllegalStateException("Title String is already set");
+            this.title = title.getKey();
             return this;
         }
 
         public Builder text(String text) {
-            if (!this.textComponent) {
-                this.text = text;
-                this.textText = true;
-            } else throw new IllegalStateException("text TranslatableComponent is already set");
+            this.text = text;
             return this;
         }
 
         public Builder text(TranslatableComponent text) {
-            if (!this.textText) {
-                this.text = text.getKey();
-                this.textComponent = true;
-            } else throw new IllegalStateException("Text String is already set");
-
+            this.text = text.getKey();
             return this;
+        }
+
+        public QuestPage build() {
+            return new QuestPage(trigger, title, text);
         }
     }
 }

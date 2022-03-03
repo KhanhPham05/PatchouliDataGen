@@ -1,4 +1,4 @@
-package com.khanhpham.patchoulidatagen.pages;
+package com.khanhpham.patchoulidatagen.utils;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -46,6 +46,7 @@ public final class PatchouliMultiblock {
         private final Map<Character, String> multiblockMappings = new HashMap<>();
         private final List<List<String>> multiblock = new ArrayList<>();
         private boolean isPatternAssigned = false;
+        private int largest;
 
         public static Builder multiblock() {
             return new Builder();
@@ -65,6 +66,7 @@ public final class PatchouliMultiblock {
             return this;
         }
 
+        //This is not tested,
         public Builder mapping(char c, Block block, Property<?> property, Object value) {
             if (this.mappingCharacters.add(c))
                 this.multiblockMappings.put(c, Objects.requireNonNull(block.getRegistryName()).toString() + '[' + property.getName() + '=' + value.toString());
@@ -99,11 +101,14 @@ public final class PatchouliMultiblock {
                         }
                     }
 
-                    });
+                });
 
-                System.out.println("Finished Checking, total Anchors : " + numberOfAnchor);
-                if (numberOfAnchor.get() > 1) throw new IllegalStateException("Anchor point of multiblock is already assigned");
-                else if (numberOfAnchor.get() == 0) throw new IllegalStateException("Anchor point for multiblock is unset");
+                //for debugging
+                //System.out.println("Finished Checking, total Anchors : " + numberOfAnchor);
+                if (numberOfAnchor.get() > 1)
+                    throw new IllegalStateException("Anchor point of multiblock is already assigned");
+                else if (numberOfAnchor.get() == 0)
+                    throw new IllegalStateException("Anchor point for multiblock is unset");
 
                 return new PatchouliMultiblock(this.multiblock, multiblockMappings);
             } else throw new IllegalStateException("Multiblock pattern is unset");

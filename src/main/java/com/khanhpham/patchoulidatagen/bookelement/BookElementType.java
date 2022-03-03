@@ -1,4 +1,4 @@
-package com.khanhpham.patchoulidatagen.pages;
+package com.khanhpham.patchoulidatagen.bookelement;
 
 public enum BookElementType {
     CATEGORIES("categories"),

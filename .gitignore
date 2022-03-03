@@ -1,3 +1,5 @@
 run/*
 build/*
 .idea/*
+src/generated/*
+src/test/*

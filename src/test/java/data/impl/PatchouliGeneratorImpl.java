@@ -1,8 +1,12 @@
-package com.khanhpham.patchoulidatagen.data.impl;
+package data.impl;
 
-import com.khanhpham.patchoulidatagen.data.PatchouliBookProvider;
-import com.khanhpham.patchoulidatagen.pages.*;
+import com.khanhpham.patchoulidatagen.bookelement.BookCategory;
+import com.khanhpham.patchoulidatagen.bookelement.BookElement;
+import com.khanhpham.patchoulidatagen.bookelement.BookEntry;
+import com.khanhpham.patchoulidatagen.bookelement.BookHeader;
+import com.khanhpham.patchoulidatagen.provider.PatchouliBookProvider;
 import com.khanhpham.patchoulidatagen.pages.pagetype.defaults.*;
+import com.khanhpham.patchoulidatagen.utils.PatchouliMultiblock;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -26,15 +30,15 @@ public class PatchouliGeneratorImpl extends PatchouliBookProvider {
         BookCategory category2 = BookCategory.Builder.category().bookHeader(header).setDisplay("Test Second Category", "test Second Category Description", Items.BIRCH_WOOD).save(consumer, "test_second_category");
 
         CraftingRecipePage crafting = CraftingRecipePage.setup().mainRecipe(Blocks.CRAFTING_TABLE).build();
-        MultiblockPage multiblockPage = MultiblockPage.Builder.setup().multiblock("Test Multiblock", PatchouliMultiblock.Builder.multiblock().pattern("A   0", "A   A").pattern("AAAAA", "AAAAA").mapping('A', Blocks.DIRT).mapping('0', Blocks.DIRT)).build();
-        //ImagePage imagePage = ImagePage.Builder.setup().addImage(new ResourceLocation("textures/block/acacia_log.png")).build();
+        MultiblockPage multiblockPage = MultiblockPage.setup().multiblock("Test Multiblock", PatchouliMultiblock.Builder.multiblock().pattern("A   0", "A   A").pattern("AAAAA", "AAAAA").mapping('A', Blocks.DIRT).mapping('0', Blocks.DIRT)).build();
+        ImagePage imagePage = ImagePage.setup().addImage(new ResourceLocation("textures/block/acacia_log.png")).build();
         TextPage textPage = TextPage.Builder.setup().text("This is a text page").title("Test Page Title").build();
-        SmeltingRecipePage smeltingPage = SmeltingRecipePage.Builder.setup().mainRecipe(Blocks.STONE).secondaryRecipe(Blocks.SMOOTH_STONE).build();
+        SmeltingRecipePage smeltingPage = SmeltingRecipePage.setup().mainRecipe(Blocks.STONE).secondaryRecipe(Blocks.SMOOTH_STONE).build();
         SpotlightPage spotlightPage = SpotlightPage.Builder.setup().item(Items.ITEM_FRAME).build();
         EntityPage entityPage = EntityPage.setup().entity(EntityType.CHICKEN).build();
 
         BookEntry.setup().category(category1).display("Test First Entry", Items.DIAMOND_SWORD).addPage(smeltingPage).addPage(spotlightPage).build(consumer, "test_entry_category_one");
-        BookEntry.setup().category(category2).display("Test Second Entry", Items.GOLD_BLOCK).addPage(textPage).addPage(multiblockPage).addPage(entityPage).addPage(crafting).build(consumer, "test_entry_category_2");
+        BookEntry.setup().category(category2).display("Test Second Entry", Items.GOLD_BLOCK).addPage(imagePage).addPage(textPage).addPage(multiblockPage).addPage(entityPage).addPage(crafting).build(consumer, "test_entry_category_2");
     }
 
     private TranslatableComponent translate(String key) {

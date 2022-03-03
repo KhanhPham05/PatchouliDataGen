@@ -1,11 +1,11 @@
-package com.khanhpham.patchoulidatagen.data;
+package com.khanhpham.patchoulidatagen.provider;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.khanhpham.patchoulidatagen.pages.BookCategory;
-import com.khanhpham.patchoulidatagen.pages.BookElement;
-import com.khanhpham.patchoulidatagen.pages.BookEntry;
-import com.khanhpham.patchoulidatagen.pages.BookHeader;
+import com.khanhpham.patchoulidatagen.bookelement.BookCategory;
+import com.khanhpham.patchoulidatagen.bookelement.BookElement;
+import com.khanhpham.patchoulidatagen.bookelement.BookEntry;
+import com.khanhpham.patchoulidatagen.bookelement.BookHeader;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.HashCache;
