@@ -9,9 +9,10 @@ import net.minecraft.world.level.ItemLike;
 import javax.annotation.Nullable;
 
 /**
+ * This page is used to display a specific item in a page
  * @see <a href="https://vazkiimods.github.io/Patchouli/docs/patchouli-basics/page-types/#crafting-recipe-pages"> Default Page Types - Spotlight Page</a>
  */
-public class SpotlightPage implements PageType {
+public final class SpotlightPage implements PageType {
     private final ItemLike spotlightItem;
 
     @Nullable
@@ -35,6 +36,10 @@ public class SpotlightPage implements PageType {
         return "spotlight";
     }
 
+    public static Builder setup() {
+        return Builder.setup();
+    }
+
     @Override
     public void toJson(JsonObject json) {
         json.addProperty("item", this.spotlightItem.asItem().getRegistryName().toString());
@@ -50,13 +55,9 @@ public class SpotlightPage implements PageType {
 
         @Nullable
         private String text;
-        private boolean textText = false;
-        private boolean textComponent = false;
 
         @Nullable
         private String title = null;
-        private boolean isTitleText = false;
-        private boolean isTitleComponent = false;
 
         public static Builder setup() {
             return new Builder();
@@ -73,36 +74,22 @@ public class SpotlightPage implements PageType {
         }
 
         public Builder title(String title) {
-            if (!this.isTitleComponent) {
-                this.title = title;
-                this.isTitleText = true;
-            } else throw new IllegalStateException("Title TranslatableComponent is already set");
-
+            this.title = title;
             return this;
         }
 
         public Builder title(TranslatableComponent title) {
-            if (!this.isTitleText) {
-                this.title = title.getKey();
-                this.isTitleComponent = true;
-            } else throw new IllegalStateException("Title String is already set");
+            this.title = title.getKey();
             return this;
         }
 
         public Builder text(String text) {
-            if (!this.textComponent) {
-                this.text = text;
-                this.textText = true;
-            } else throw new IllegalStateException("text TranslatableComponent is already set");
+            this.text = text;
             return this;
         }
 
         public Builder text(TranslatableComponent text) {
-            if (!this.textText) {
-                this.text = text.getKey();
-                this.textComponent = true;
-            } else throw new IllegalStateException("Text String is already set");
-
+            this.text = text.getKey();
             return this;
         }
 
