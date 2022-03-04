@@ -1,4 +1,4 @@
-package data.impl;
+package com.khanhpham.patchoulidatagen.examplecode;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.LanguageProvider;

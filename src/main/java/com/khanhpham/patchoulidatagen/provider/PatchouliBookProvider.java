@@ -13,6 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.HashSet;
@@ -26,15 +27,20 @@ public abstract class PatchouliBookProvider implements DataProvider {
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     private final DataGenerator generator;
+    @Nullable
     private final ExistingFileHelper fileHelper;
     protected final String modid;
     private final String bookName;
 
-    public PatchouliBookProvider(DataGenerator generator, ExistingFileHelper fileHelper, String bookName, String modid) {
+    public PatchouliBookProvider(DataGenerator generator, @Nullable ExistingFileHelper fileHelper, String bookName, String modid) {
         this.fileHelper = fileHelper;
         this.generator = generator;
         this.modid = modid;
         this.bookName = bookName;
+    }
+
+    public PatchouliBookProvider(DataGenerator generator, String bookName, String modid) {
+        this(generator, null, bookName, modid);
     }
 
     @Override
@@ -61,7 +67,7 @@ public abstract class PatchouliBookProvider implements DataProvider {
             }
         });
 
-        registerPages(elementConsumer);
+        buildPages(elementConsumer);
     }
 
     private Path resolvePath(Path path, String pathOther) {
@@ -76,7 +82,7 @@ public abstract class PatchouliBookProvider implements DataProvider {
         }
     }
 
-    protected abstract void registerPages(Consumer<BookElement> consumer);
+    protected abstract void buildPages(Consumer<BookElement> consumer);
 
     @Override
     public String getName() {

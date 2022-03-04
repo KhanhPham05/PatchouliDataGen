@@ -1,4 +1,4 @@
-package data.impl;
+package com.khanhpham.patchoulidatagen.examplecode;
 
 import com.khanhpham.patchoulidatagen.Names;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

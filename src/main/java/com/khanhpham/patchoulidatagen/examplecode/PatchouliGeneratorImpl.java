@@ -1,4 +1,4 @@
-package data.impl;
+package com.khanhpham.patchoulidatagen.examplecode;
 
 import com.khanhpham.patchoulidatagen.bookelement.BookCategory;
 import com.khanhpham.patchoulidatagen.bookelement.BookElement;
@@ -23,7 +23,7 @@ public class PatchouliGeneratorImpl extends PatchouliBookProvider {
     }
 
     @Override
-    protected void registerPages(Consumer<BookElement> consumer) {
+    protected void buildPages(Consumer<BookElement> consumer) {
         BookHeader header = BookHeader.Builder.header().enableI18n().setBookComponent(modid, translate("test_book.name"), translate("test_book.landing_text")).build(consumer);
 
         BookCategory category1 = BookCategory.Builder.category().bookHeader(header).setDisplay(new TranslatableComponent("test_category"), new TranslatableComponent("test_category.desc"), Items.DIRT).save(consumer, "test");

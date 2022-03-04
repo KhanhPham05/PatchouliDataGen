@@ -9,13 +9,17 @@ import net.minecraft.world.level.block.state.properties.Property;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
-public final class PatchouliMultiblock {
+public final class PatchouliMultiblock implements Multiblock {
     private final List<List<String>> multiblock;
     private final Map<Character, String> mappings;
 
     public PatchouliMultiblock(List<List<String>> multiblock, Map<Character, String> mappings) {
         this.multiblock = multiblock;
         this.mappings = mappings;
+    }
+
+    public static Builder setup() {
+        return Builder.multiblock();
     }
 
     public JsonObject toJson() {
@@ -46,7 +50,6 @@ public final class PatchouliMultiblock {
         private final Map<Character, String> multiblockMappings = new HashMap<>();
         private final List<List<String>> multiblock = new ArrayList<>();
         private boolean isPatternAssigned = false;
-        private int largest;
 
         public static Builder multiblock() {
             return new Builder();
