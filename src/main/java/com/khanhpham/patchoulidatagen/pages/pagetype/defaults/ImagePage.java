@@ -6,8 +6,10 @@ import com.khanhpham.patchoulidatagen.Utils;
 import com.khanhpham.patchoulidatagen.pages.pagetype.PageType;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
+import org.checkerframework.checker.units.qual.A;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 
 
 /**
@@ -71,6 +73,16 @@ public final class ImagePage implements PageType {
 
         public Builder addImage(ResourceLocation... images) {
             this.images = images;
+            return this;
+        }
+
+        public Builder addImage(String... images) {
+            ArrayList<ResourceLocation> i = new ArrayList<>();
+            for (String image : images) {
+                i.add(new ResourceLocation(image));
+            }
+
+            this.images = i.toArray(new ResourceLocation[0]);
             return this;
         }
 
