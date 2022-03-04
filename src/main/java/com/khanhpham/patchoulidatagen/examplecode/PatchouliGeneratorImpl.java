@@ -7,12 +7,14 @@ import com.khanhpham.patchoulidatagen.bookelement.BookHeader;
 import com.khanhpham.patchoulidatagen.provider.PatchouliBookProvider;
 import com.khanhpham.patchoulidatagen.pages.pagetype.defaults.*;
 import com.khanhpham.patchoulidatagen.utils.PatchouliMultiblock;
+import net.minecraft.core.Direction;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.StairBlock;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
 import java.util.function.Consumer;
@@ -36,8 +38,12 @@ public class PatchouliGeneratorImpl extends PatchouliBookProvider {
         SmeltingRecipePage smeltingPage = SmeltingRecipePage.setup().mainRecipe(Blocks.STONE).secondaryRecipe(Blocks.SMOOTH_STONE).build();
         SpotlightPage spotlightPage = SpotlightPage.Builder.setup().item(Items.ITEM_FRAME).build();
         EntityPage entityPage = EntityPage.setup().entity(EntityType.CHICKEN).build();
+        /**
+         * @see net.minecraft.world.level.block.StairBlock
+         */
+        MultiblockPage multiblockPage1 = MultiblockPage.setup().multiblock("test_multiblock_2", PatchouliMultiblock.setup().pattern("XXX0XXX").mapping('X' , Blocks.OAK_STAIRS, StairBlock.FACING, Direction.NORTH)).build();
 
-        BookEntry.setup().category(category1).display("Test First Entry", Items.DIAMOND_SWORD).addPage(smeltingPage).addPage(spotlightPage).build(consumer, "test_entry_category_one");
+        BookEntry.setup().category(category1).display("Test First Entry", Items.DIAMOND_SWORD).addPage(multiblockPage1).addPage(smeltingPage).addPage(spotlightPage).build(consumer, "test_entry_category_one");
         BookEntry.setup().category(category2).display("Test Second Entry", Items.GOLD_BLOCK).addPage(imagePage).addPage(textPage).addPage(multiblockPage).addPage(entityPage).addPage(crafting).build(consumer, "test_entry_category_2");
     }
 

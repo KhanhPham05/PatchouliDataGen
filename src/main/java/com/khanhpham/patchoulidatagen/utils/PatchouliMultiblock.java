@@ -45,7 +45,7 @@ public final class PatchouliMultiblock implements Multiblock {
 
     }
 
-    public static final class Builder {
+    public static final class Builder implements MultiblockBuilder {
         private final Set<Character> mappingCharacters = new HashSet<>();
         private final Map<Character, String> multiblockMappings = new HashMap<>();
         private final List<List<String>> multiblock = new ArrayList<>();
@@ -69,8 +69,10 @@ public final class PatchouliMultiblock implements Multiblock {
             return this;
         }
 
-        //This is not tested,
-        public Builder mapping(char c, Block block, Property<?> property, Object value) {
+
+
+        //This is not tested
+        public <T extends Comparable<T>> Builder mapping(char c, Block block, Property<T> property, T value) {
             if (this.mappingCharacters.add(c))
                 this.multiblockMappings.put(c, Objects.requireNonNull(block.getRegistryName()).toString() + '[' + property.getName() + '=' + value.toString());
             else throw new IllegalStateException("Duplicate mapping definition [" + c + ']');
@@ -87,6 +89,10 @@ public final class PatchouliMultiblock implements Multiblock {
         }
 
         public PatchouliMultiblock build() {
+            if (this.mappingCharacters.isEmpty()) {
+                throw new IllegalStateException("No mapping is set");
+            }
+
             if (isPatternAssigned) {
 
                 AtomicReference<Byte> numberOfAnchor = new AtomicReference<>((byte) 0);
@@ -116,6 +122,5 @@ public final class PatchouliMultiblock implements Multiblock {
                 return new PatchouliMultiblock(this.multiblock, multiblockMappings);
             } else throw new IllegalStateException("Multiblock pattern is unset");
         }
-
     }
 }

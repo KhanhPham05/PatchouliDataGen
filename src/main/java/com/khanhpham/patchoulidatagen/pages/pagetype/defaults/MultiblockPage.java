@@ -2,6 +2,7 @@ package com.khanhpham.patchoulidatagen.pages.pagetype.defaults;
 
 import com.google.gson.JsonObject;
 import com.khanhpham.patchoulidatagen.Utils;
+import com.khanhpham.patchoulidatagen.utils.Multiblock;
 import com.khanhpham.patchoulidatagen.utils.PatchouliMultiblock;
 import com.khanhpham.patchoulidatagen.pages.pagetype.PageType;
 import net.minecraft.network.chat.Component;
@@ -15,7 +16,7 @@ import javax.annotation.Nullable;
 public final class MultiblockPage implements PageType {
     private final String multiblockName;
 
-    private final PatchouliMultiblock multiblock;
+    private final Multiblock multiblock;
 
     @Nullable
     private final String multiblockId;
@@ -26,7 +27,7 @@ public final class MultiblockPage implements PageType {
     @Nullable
     private final Component text;
 
-    public MultiblockPage(String multiblockName, PatchouliMultiblock multiblock, @Nullable String multiblockId, @Nullable Boolean enableVisualize, @Nullable Component text) {
+    public MultiblockPage(String multiblockName, Multiblock multiblock, @Nullable String multiblockId, @Nullable Boolean enableVisualize, @Nullable Component text) {
         this.multiblockName = multiblockName;
         this.multiblockId = multiblockId;
         this.multiblock = multiblock;
@@ -54,7 +55,7 @@ public final class MultiblockPage implements PageType {
 
     public static final class Builder {
         private String multiblockName;
-        private PatchouliMultiblock multiblock;
+        private Multiblock multiblock;
         private String multiblockId = null;
         private Boolean enableVisualize = null;
         private Component text = null;
@@ -67,7 +68,7 @@ public final class MultiblockPage implements PageType {
             return new Builder();
         }
 
-        public Builder multiblock(String multiblockName, PatchouliMultiblock.Builder multiblockBuilder) {
+        public Builder multiblock(String multiblockName, Multiblock.MultiblockBuilder multiblockBuilder) {
             this.multiblockName = multiblockName;
             this.multiblock = multiblockBuilder.build();
             this.isMultiblockComponentSet = true;
