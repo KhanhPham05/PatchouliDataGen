@@ -16,6 +16,6 @@ repositories {
 dependencies {
 
   //Please put this line BELOW the minecraft dependency
-  < Updating > 
+  implementation fg.deobf('curse.maven:patchouli-datagen-ptd-lib-585667:3670846')
 }
 ```
