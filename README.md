@@ -16,6 +16,9 @@ repositories {
 dependencies {
 
   //Please put this line BELOW the minecraft dependency
-  implementation fg.deobf('curse.maven:patchouli-datagen-ptd-lib-585667:3670846')
+  implementation fg.deobf('curse.maven:patchouli-datagen-ptd-lib-585667:${file_id}')
 }
 ```
+
+## How to check for ${file_id} ?
+go to https://www.curseforge.com/minecraft/mc-mods/patchouli-datagen-ptd-lib/files then find and click on a version that you want to use, then the file id is the number in the end of the link, you can you that number to install the proper lib version
