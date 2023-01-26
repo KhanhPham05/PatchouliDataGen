@@ -11,7 +11,10 @@ import javax.annotation.Nullable;
 
 /**
  * This page is used to display a multiblock structure
- * @see <a href="https://vazkiimods.github.io/Patchouli/docs/patchouli-basics/page-types/#multiblock-pages">Defaylt Page Types - Multiblock Pages</a>
+ * 
+ * @see <a href=
+ *      "https://vazkiimods.github.io/Patchouli/docs/patchouli-basics/page-types/#multiblock-pages">Defaylt
+ *      Page Types - Multiblock Pages</a>
  */
 public final class MultiblockPage implements PageType {
     private final String multiblockName;
@@ -27,7 +30,9 @@ public final class MultiblockPage implements PageType {
     @Nullable
     private final Component text;
 
-    public MultiblockPage(String multiblockName, Multiblock multiblock, @Nullable String multiblockId, @Nullable Boolean enableVisualize, @Nullable Component text) {
+    public MultiblockPage(String multiblockName, Multiblock multiblock,
+            @Nullable String multiblockId, @Nullable Boolean enableVisualize,
+            @Nullable Component text) {
         this.multiblockName = multiblockName;
         this.multiblockId = multiblockId;
         this.multiblock = multiblock;
@@ -61,14 +66,14 @@ public final class MultiblockPage implements PageType {
         private Component text = null;
         private boolean isMultiblockComponentSet = false;
 
-        private Builder() {
-        }
+        private Builder() {}
 
         private static Builder setup() {
             return new Builder();
         }
 
-        public Builder multiblock(String multiblockName, Multiblock.MultiblockBuilder multiblockBuilder) {
+        public Builder multiblock(String multiblockName,
+                Multiblock.MultiblockBuilder multiblockBuilder) {
             this.multiblockName = multiblockName;
             this.multiblock = multiblockBuilder.build();
             this.isMultiblockComponentSet = true;
@@ -92,8 +97,10 @@ public final class MultiblockPage implements PageType {
 
         public MultiblockPage build() {
             if (isMultiblockComponentSet)
-                return new MultiblockPage(multiblockName, multiblock, multiblockId, enableVisualize, text);
-            else throw new IllegalStateException("Multiblock component is unset");
+                return new MultiblockPage(multiblockName, multiblock, multiblockId, enableVisualize,
+                        text);
+            else
+                throw new IllegalStateException("Multiblock component is unset");
         }
     }
 }

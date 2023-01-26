@@ -8,10 +8,14 @@ import javax.annotation.Nullable;
 
 /**
  * This is an empty page with no text
- * @see <a href="https://vazkiimods.github.io/Patchouli/docs/patchouli-basics/page-types/#empty-pages">Default Page Types - Empty Pages</a>
+ * 
+ * @see <a href=
+ *      "https://vazkiimods.github.io/Patchouli/docs/patchouli-basics/page-types/#empty-pages">Default
+ *      Page Types - Empty Pages</a>
  */
 public final class EmptyPage implements PageType {
-    @Nullable private final Boolean drawFiller;
+    @Nullable
+    private final Boolean drawFiller;
 
     public EmptyPage(@Nullable Boolean drawFiller) {
         this.drawFiller = drawFiller;

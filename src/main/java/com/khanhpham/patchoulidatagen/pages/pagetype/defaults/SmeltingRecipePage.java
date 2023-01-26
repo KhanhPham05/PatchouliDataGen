@@ -3,7 +3,7 @@ package com.khanhpham.patchoulidatagen.pages.pagetype.defaults;
 import com.google.gson.JsonObject;
 import com.khanhpham.patchoulidatagen.Utils;
 import com.khanhpham.patchoulidatagen.pages.pagetype.PageType;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.ItemLike;
 
 import javax.annotation.Nullable;
@@ -11,7 +11,9 @@ import javax.annotation.Nullable;
 /**
  * this page is used to display a smelting recipe
  *
- * @see <a href="https://vazkiimods.github.io/Patchouli/docs/patchouli-basics/page-types/#smelting-recipe-pages">Default Page Types - Smelting Recipe Pages</a>
+ * @see <a href=
+ *      "https://vazkiimods.github.io/Patchouli/docs/patchouli-basics/page-types/#smelting-recipe-pages">Default
+ *      Page Types - Smelting Recipe Pages</a>
  */
 public final class SmeltingRecipePage implements PageType {
     private final ItemLike smeltingItem;
@@ -25,7 +27,8 @@ public final class SmeltingRecipePage implements PageType {
     @Nullable
     private final String text;
 
-    public SmeltingRecipePage(ItemLike smeltingItem, @Nullable ItemLike smeltingItem2, @Nullable String title, @Nullable String text) {
+    public SmeltingRecipePage(ItemLike smeltingItem, @Nullable ItemLike smeltingItem2,
+            @Nullable String title, @Nullable String text) {
         this.smeltingItem = smeltingItem;
         this.smeltingItem2 = smeltingItem2;
         this.title = title;
@@ -43,9 +46,9 @@ public final class SmeltingRecipePage implements PageType {
 
     @Override
     public void toJson(JsonObject json) {
-        json.addProperty("recipe", this.smeltingItem.asItem().getRegistryName().toString());
+        json.addProperty("recipe", this.smeltingItem.asItem().toString());
         if (this.smeltingItem2 != null) {
-            json.addProperty("recipe2", this.smeltingItem2.asItem().getRegistryName().toString());
+            json.addProperty("recipe2", this.smeltingItem2.asItem().toString());
         }
 
         Utils.optional(json, "title", this.title);
@@ -53,7 +56,7 @@ public final class SmeltingRecipePage implements PageType {
     }
 
     public static final class Builder {
-        //MANDATORY
+        // MANDATORY
         private ItemLike smeltingItem;
 
         @Nullable
@@ -84,8 +87,8 @@ public final class SmeltingRecipePage implements PageType {
             return this;
         }
 
-        public Builder title(TranslatableComponent title) {
-            this.title = title.getKey();
+        public Builder title(Component title) {
+            this.title = title.getString();
             return this;
         }
 
@@ -96,8 +99,8 @@ public final class SmeltingRecipePage implements PageType {
             return this;
         }
 
-        public Builder text(TranslatableComponent text) {
-            this.text = text.getKey();
+        public Builder text(Component text) {
+            this.text = text.getString();
             return this;
         }
 

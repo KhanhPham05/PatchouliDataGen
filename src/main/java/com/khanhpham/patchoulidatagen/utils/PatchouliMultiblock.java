@@ -2,7 +2,7 @@ package com.khanhpham.patchoulidatagen.utils;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.Property;
 
@@ -64,27 +64,32 @@ public final class PatchouliMultiblock implements Multiblock {
 
         public Builder mapping(char c, Block block) {
             if (this.mappingCharacters.add(c))
-                this.multiblockMappings.put(c, Objects.requireNonNull(block.getRegistryName()).toString());
-            else throw new IllegalStateException("Duplicate mapping definition [" + c + ']');
+                this.multiblockMappings.put(c, Objects.requireNonNull(block.getName()).toString());
+            else
+                throw new IllegalStateException("Duplicate mapping definition [" + c + ']');
             return this;
         }
 
 
 
-        //This is not tested
-        public <T extends Comparable<T>> Builder mapping(char c, Block block, Property<T> property, T value) {
+        // This is not tested
+        public <T extends Comparable<T>> Builder mapping(char c, Block block, Property<T> property,
+                T value) {
             if (this.mappingCharacters.add(c))
-                this.multiblockMappings.put(c, Objects.requireNonNull(block.getRegistryName()).toString() + '[' + property.getName() + '=' + value.toString());
-            else throw new IllegalStateException("Duplicate mapping definition [" + c + ']');
+                this.multiblockMappings.put(c, Objects.requireNonNull(block.getName()).toString()
+                        + '[' + property.getName() + '=' + value.toString());
+            else
+                throw new IllegalStateException("Duplicate mapping definition [" + c + ']');
             return this;
         }
 
-        public Builder mapping(char c, Tag.Named<Block> blockTag) {
-            String tagId = '#' + blockTag.getName().toString();
+        public Builder mapping(char c, TagKey<Block> blockTag) {
+            String tagId = '#' + blockTag.registry().location().toString();
 
             if (this.mappingCharacters.add(c))
                 this.multiblockMappings.put(c, tagId);
-            else throw new IllegalStateException("Duplicate mapping definition [" + c + ']');
+            else
+                throw new IllegalStateException("Duplicate mapping definition [" + c + ']');
             return this;
         }
 
@@ -105,22 +110,25 @@ public final class PatchouliMultiblock implements Multiblock {
                         for (char c1 : c) {
                             if (c1 == '0') {
                                 numberOfAnchor.getAndSet((byte) (numberOfAnchor.get() + 1));
-                                System.out.println("Anchor Detected , total anchors : " + numberOfAnchor);
+                                System.out
+                                    .println("Anchor Detected , total anchors : " + numberOfAnchor);
                             }
                         }
                     }
 
                 });
 
-                //for debugging
-                //System.out.println("Finished Checking, total Anchors : " + numberOfAnchor);
+                // for debugging
+                // System.out.println("Finished Checking, total Anchors : " + numberOfAnchor);
                 if (numberOfAnchor.get() > 1)
-                    throw new IllegalStateException("Anchor point of multiblock is already assigned");
+                    throw new IllegalStateException(
+                            "Anchor point of multiblock is already assigned");
                 else if (numberOfAnchor.get() == 0)
                     throw new IllegalStateException("Anchor point for multiblock is unset");
 
                 return new PatchouliMultiblock(this.multiblock, multiblockMappings);
-            } else throw new IllegalStateException("Multiblock pattern is unset");
+            } else
+                throw new IllegalStateException("Multiblock pattern is unset");
         }
     }
 }

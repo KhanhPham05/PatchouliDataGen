@@ -2,13 +2,16 @@ package com.khanhpham.patchoulidatagen.pages.pagetype.defaults;
 
 import com.google.gson.JsonObject;
 import com.khanhpham.patchoulidatagen.pages.pagetype.PageType;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 
 import javax.annotation.Nullable;
 
 /**
  * This page is only for text displaying, useful for documentation
- * @see <a href="https://vazkiimods.github.io/Patchouli/docs/patchouli-basics/page-types/#text-pages">Default Page Types - Text Pages</a>
+ * 
+ * @see <a href=
+ *      "https://vazkiimods.github.io/Patchouli/docs/patchouli-basics/page-types/#text-pages">Default
+ *      Page Types - Text Pages</a>
  */
 public final class TextPage implements PageType {
     private final String text;
@@ -54,8 +57,8 @@ public final class TextPage implements PageType {
             return this;
         }
 
-        public Builder title(TranslatableComponent title) {
-            this.title = title.getKey();
+        public Builder title(Component title) {
+            this.title = title.getString();
             return this;
         }
 
@@ -64,16 +67,16 @@ public final class TextPage implements PageType {
             return this;
         }
 
-        public Builder text(TranslatableComponent text) {
-            this.text = text.getKey();
-
+        public Builder text(Component text) {
+            this.text = text.getString();
             return this;
         }
 
         public TextPage build() {
             if (this.text == null) {
                 throw new IllegalStateException("Text for text page is unset, it is mandatory");
-            } else return new TextPage(this.text, this.title);
+            } else
+                return new TextPage(this.text, this.title);
         }
 
     }

@@ -6,18 +6,18 @@ import com.khanhpham.patchoulidatagen.bookelement.BookCategory;
 import com.khanhpham.patchoulidatagen.bookelement.BookElement;
 import com.khanhpham.patchoulidatagen.bookelement.BookEntry;
 import com.khanhpham.patchoulidatagen.bookelement.BookHeader;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.DataProvider;
-import net.minecraft.data.HashCache;
+import net.minecraft.data.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.pathfinder.Target;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 /**
@@ -32,7 +32,8 @@ public abstract class PatchouliBookProvider implements DataProvider {
     protected final String modid;
     private final String bookName;
 
-    public PatchouliBookProvider(DataGenerator generator, @Nullable ExistingFileHelper fileHelper, String bookName, String modid) {
+    public PatchouliBookProvider(DataGenerator generator, @Nullable ExistingFileHelper fileHelper,
+            String bookName, String modid) {
         this.fileHelper = fileHelper;
         this.generator = generator;
         this.modid = modid;
@@ -44,21 +45,24 @@ public abstract class PatchouliBookProvider implements DataProvider {
     }
 
     @Override
-    public void run(@Nonnull HashCache pCache) {
-        Path dataFolder = generator.getOutputFolder();
+    public @NotNull CompletableFuture<?> run(CachedOutput pOutput) {
+        PackOutput dataFolder = generator.getPackOutput();
         Set<String> bookLocations = new HashSet<>();
         final String bookDefaultPath = "data/" + modid + "/patchouli_books/" + bookName + "/en_us/";
         Consumer<BookElement> elementConsumer = ((element) -> {
             if (bookLocations.add(element.getSaveName())) {
                 if (element instanceof BookEntry entries) {
-                    Path entryFolder = resolvePath(dataFolder, bookDefaultPath + "entries/" + entries.getSaveName() + ".json");
-                    this.saveData(gson, pCache, entries, entryFolder);
+                    Path entryFolder = resolvePath(dataFolder,
+                            bookDefaultPath + "entries/" + entries.getSaveName() + ".json");
+                    this.saveData(gson, pOutput, entries, entryFolder);
                 } else if (element instanceof BookCategory category) {
-                    Path categoryFolder = resolvePath(dataFolder, bookDefaultPath + "categories/" + category.getSaveName() + ".json");
-                    this.saveData(gson, pCache, category, categoryFolder);
+                    Path categoryFolder = resolvePath(dataFolder,
+                            bookDefaultPath + "categories/" + category.getSaveName() + ".json");
+                    this.saveData(gson, pOutput, category, categoryFolder);
                 } else if (element instanceof BookHeader header) {
-                    Path headerFolder = resolvePath(dataFolder, "data/" + modid + "/patchouli_books/" + bookName + "/book.json");
-                    this.saveData(gson, pCache, header, headerFolder);
+                    Path headerFolder = resolvePath(dataFolder,
+                            "data/" + modid + "/patchouli_books/" + bookName + "/book.json");
+                    this.saveData(gson, pOutput, header, headerFolder);
                 }
 
             } else {
@@ -67,25 +71,24 @@ public abstract class PatchouliBookProvider implements DataProvider {
             }
         });
 
-        buildPages(elementConsumer);
+        return CompletableFuture.runAsync(() -> {
+            buildPages(elementConsumer);
+        });
     }
 
-    private Path resolvePath(Path path, String pathOther) {
-        return path.resolve(pathOther);
+    private Path resolvePath(PackOutput path, String pathOther) {
+        return path.getOutputFolder().resolve(pathOther);
     }
 
-    private <T extends BookElement> void saveData(Gson gson, HashCache cache, T jsonObject, Path bookElementPath) {
-        try {
-            DataProvider.save(gson, cache, jsonObject.toJson(), bookElementPath);
-        } catch (IOException exception) {
-            exception.printStackTrace();
-        }
+    private <T extends BookElement> void saveData(Gson gson, CachedOutput cache, T jsonObject,
+            Path bookElementPath) {
+        DataProvider.saveStable(cache, jsonObject.toJson(), bookElementPath);
     }
 
     protected abstract void buildPages(Consumer<BookElement> consumer);
 
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return "Patchouli Book: " + bookName.toLowerCase();
     }
 }

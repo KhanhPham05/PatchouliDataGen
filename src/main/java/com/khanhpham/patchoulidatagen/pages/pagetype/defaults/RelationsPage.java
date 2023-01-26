@@ -4,7 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.khanhpham.patchoulidatagen.Utils;
 import com.khanhpham.patchoulidatagen.pages.pagetype.PageType;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -13,7 +13,9 @@ import java.util.List;
 /**
  * This page includes links to pages related
  *
- * @see <a href="https://vazkiimods.github.io/Patchouli/docs/patchouli-basics/page-types/#relations-pages">Default Page Types - Relations Pages</a>
+ * @see <a href=
+ *      "https://vazkiimods.github.io/Patchouli/docs/patchouli-basics/page-types/#relations-pages">Default
+ *      Page Types - Relations Pages</a>
  */
 public final class RelationsPage implements PageType {
     private final String[] entries;
@@ -49,7 +51,7 @@ public final class RelationsPage implements PageType {
     }
 
     public static final class Builder {
-        private String[] entryArray = new String[]{};
+        private String[] entryArray = new String[] {};
 
         @Nullable
         private String text;
@@ -90,8 +92,8 @@ public final class RelationsPage implements PageType {
             return this;
         }
 
-        public Builder title(TranslatableComponent title) {
-            this.title = title.getKey();
+        public Builder title(Component title) {
+            this.title = title.getString();
             return this;
         }
 
@@ -100,15 +102,17 @@ public final class RelationsPage implements PageType {
             return this;
         }
 
-        public Builder text(TranslatableComponent text) {
-            this.text = text.getKey();
+        public Builder text(Component text) {
+            this.text = text.getString();
 
             return this;
         }
 
         public RelationsPage build() {
-            if (entryArray.length != 0) return new RelationsPage(entryArray, title, text);
-            else throw new IllegalStateException("Required entries IDs are unset");
+            if (entryArray.length != 0)
+                return new RelationsPage(entryArray, title, text);
+            else
+                throw new IllegalStateException("Required entries IDs are unset");
         }
     }
 }

@@ -4,7 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.khanhpham.patchoulidatagen.Utils;
 import com.khanhpham.patchoulidatagen.pages.pagetype.PageType;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.ItemLike;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
@@ -41,7 +41,10 @@ public final class BookEntry implements BookElement {
     @Nullable
     private final String turnIn;
 
-    public BookEntry(String saveName, @Nonnull BookCategory category, @Nonnull String name, @Nonnull ItemLike icon, @NonNull Set<PageType> pages, @Nullable String advancement, @Nullable String configFlag, @Nullable Boolean priority, @Nullable Boolean secret, @Nullable Boolean readByDefault, @Nullable Integer sortNum, @Nullable String turnIn) {
+    public BookEntry(String saveName, @Nonnull BookCategory category, @Nonnull String name,
+            @Nonnull ItemLike icon, @NonNull Set<PageType> pages, @Nullable String advancement,
+            @Nullable String configFlag, @Nullable Boolean priority, @Nullable Boolean secret,
+            @Nullable Boolean readByDefault, @Nullable Integer sortNum, @Nullable String turnIn) {
         this.saveName = saveName;
         this.category = category;
         this.name = name;
@@ -70,7 +73,7 @@ public final class BookEntry implements BookElement {
         JsonObject json = new JsonObject();
         json.addProperty("name", this.name);
         json.addProperty("category", this.category.getCategoryId().toString());
-        json.addProperty("icon", Objects.requireNonNull(this.icon.asItem().getRegistryName()).toString());
+        json.addProperty("icon", Objects.requireNonNull(this.icon.asItem().toString()));
 
         JsonArray pages = new JsonArray();
         this.pages.forEach(page -> {
@@ -151,8 +154,8 @@ public final class BookEntry implements BookElement {
             return this;
         }
 
-        public Builder display(TranslatableComponent entryNameTranslatable, ItemLike icon) {
-            this.name = entryNameTranslatable.getKey();
+        public Builder display(Component entryNameTranslatable, ItemLike icon) {
+            this.name = entryNameTranslatable.getString();
             this.icon = icon;
             this.isDisplaySet = true;
             return this;
@@ -167,7 +170,8 @@ public final class BookEntry implements BookElement {
             if (category == null || !isDisplaySet) {
                 throw new IllegalStateException("Missing parent category or entry display");
             }
-            BookEntry entry = new BookEntry(saveName, category, name, icon, pages, advancement, configFlag, priority, secret, readByDefault, sortNum, turnIn);
+            BookEntry entry = new BookEntry(saveName, category, name, icon, pages, advancement,
+                    configFlag, priority, secret, readByDefault, sortNum, turnIn);
             consumer.accept(entry);
             return entry;
         }

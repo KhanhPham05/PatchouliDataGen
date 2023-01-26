@@ -3,18 +3,22 @@ package com.khanhpham.patchoulidatagen.pages.pagetype.defaults;
 import com.google.gson.JsonObject;
 import com.khanhpham.patchoulidatagen.Utils;
 import com.khanhpham.patchoulidatagen.pages.pagetype.PageType;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 
 import javax.annotation.Nullable;
 
 /**
- * This page is used to mark an entry with a "?"
- *  * @see <a href="https://vazkiimods.github.io/Patchouli/docs/patchouli-basics/page-types/#quest-pages">Defaylt Page Types - Quest Pages</a>
+ * This page is used to mark an entry with a "?" * @see <a href=
+ * "https://vazkiimods.github.io/Patchouli/docs/patchouli-basics/page-types/#quest-pages">Defaylt
+ * Page Types - Quest Pages</a>
  */
 public final class QuestPage implements PageType {
-    @Nullable private final String trigger;
-    @Nullable private final String title;
-    @Nullable private final String text;
+    @Nullable
+    private final String trigger;
+    @Nullable
+    private final String title;
+    @Nullable
+    private final String text;
 
     public QuestPage(@Nullable String trigger, @Nullable String title, @Nullable String text) {
         this.trigger = trigger;
@@ -53,8 +57,8 @@ public final class QuestPage implements PageType {
             return this;
         }
 
-        public Builder trigger(TranslatableComponent title) {
-            this.trigger = title.getKey();
+        public Builder trigger(Component title) {
+            this.trigger = title.getString();
             return this;
         }
 
@@ -63,8 +67,8 @@ public final class QuestPage implements PageType {
             return this;
         }
 
-        public Builder title(TranslatableComponent title) {
-            this.title = title.getKey();
+        public Builder title(Component title) {
+            this.title = title.getString();
             return this;
         }
 
@@ -73,8 +77,8 @@ public final class QuestPage implements PageType {
             return this;
         }
 
-        public Builder text(TranslatableComponent text) {
-            this.text = text.getKey();
+        public Builder text(Component text) {
+            this.text = text.getString();
             return this;
         }
 

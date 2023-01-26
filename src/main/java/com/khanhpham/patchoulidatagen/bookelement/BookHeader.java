@@ -2,7 +2,7 @@ package com.khanhpham.patchoulidatagen.bookelement;
 
 import com.google.gson.JsonObject;
 import com.khanhpham.patchoulidatagen.Utils;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 
@@ -64,7 +64,18 @@ public class BookHeader implements BookElement {
     private final String bookId;
 
 
-    public BookHeader(String bookId, String name, String landingText, @Nullable ResourceLocation bookTexture, @Nullable String fillerTexture, @Nullable String craftingTexture, @Nullable Integer textColor, @Nullable Integer headerColor, @Nullable Integer nameplateColor, @Nullable Integer linkColor, @Nullable Integer linkHoverColor, @Nullable Integer progressBarColor, @Nullable Integer progressBarBackground, @Nullable ResourceLocation openSound, @Nullable ResourceLocation flipSound, @Nullable Boolean showProgress, @Nullable String version, @Nullable String subtitle, @Nullable String creativeTab, @Nullable String advancementTab, @Nullable Boolean doNotGenerateBook, @Nullable Item customBookItem, @Nullable Boolean showToast, @Nullable Boolean useBlockyFont, @Nullable Boolean i18n, @Nullable Boolean pauseGame, @Nullable ResourceLocation icon) {
+    public BookHeader(String bookId, String name, String landingText,
+            @Nullable ResourceLocation bookTexture, @Nullable String fillerTexture,
+            @Nullable String craftingTexture, @Nullable Integer textColor,
+            @Nullable Integer headerColor, @Nullable Integer nameplateColor,
+            @Nullable Integer linkColor, @Nullable Integer linkHoverColor,
+            @Nullable Integer progressBarColor, @Nullable Integer progressBarBackground,
+            @Nullable ResourceLocation openSound, @Nullable ResourceLocation flipSound,
+            @Nullable Boolean showProgress, @Nullable String version, @Nullable String subtitle,
+            @Nullable String creativeTab, @Nullable String advancementTab,
+            @Nullable Boolean doNotGenerateBook, @Nullable Item customBookItem,
+            @Nullable Boolean showToast, @Nullable Boolean useBlockyFont, @Nullable Boolean i18n,
+            @Nullable Boolean pauseGame, @Nullable ResourceLocation icon) {
         this.name = name;
         this.landingText = landingText;
         this.bookTexture = bookTexture;
@@ -134,7 +145,7 @@ public class BookHeader implements BookElement {
         Utils.optional(json, "advancement_tab", advancementTab);
         Utils.optional(json, "dont_generate_book", doNotGenerateBook);
         if (customBookItem != null)
-            Utils.optional(json, "custom_book_item", customBookItem.getRegistryName());
+            Utils.optional(json, "custom_book_item", customBookItem.toString());
 
         Utils.optional(json, "show_toasts", showToast);
         Utils.optional(json, "use_blocky_font", useBlockyFont);
@@ -148,8 +159,8 @@ public class BookHeader implements BookElement {
 
     public static final class Builder {
         private boolean componentSet = false;
-        private TranslatableComponent name;
-        private TranslatableComponent landingText;
+        private Component name;
+        private Component landingText;
 
         private String nameText;
         private String landingTextText;
@@ -203,18 +214,20 @@ public class BookHeader implements BookElement {
         }
 
         /**
-         * Use this in case you have i18n enabled, otherwise, use another {@link #setBookComponentText(String, String, String)} method
+         * Use this in case you have i18n enabled, otherwise, use another
+         * {@link #setBookComponentText(String, String, String)} method
          *
          * @param bookId - pass the mod id
          */
-        public Builder setBookComponent(String bookId, TranslatableComponent name, TranslatableComponent landingText) {
+        public Builder setBookComponent(String bookId, Component name, Component landingText) {
             if (i18n != null) {
                 this.name = name;
                 this.landingText = landingText;
                 this.bookId = bookId;
                 this.componentSet = true;
             } else {
-                throw new IllegalStateException("Used TranslatableComponent while i18n is not enabled yet, make sure to enable it before call this");
+                throw new IllegalStateException(
+                        "Used Component while i18n is not enabled yet, make sure to enable it before call this");
             }
             return this;
         }
@@ -226,7 +239,8 @@ public class BookHeader implements BookElement {
                     this.nameText = name;
                     this.bookId = bookId;
                 } else
-                    throw new IllegalStateException("Used String text component while TranslatableComponent is already been set");
+                    throw new IllegalStateException(
+                            "Used String text component while Component is already been set");
             }
             return this;
         }
@@ -354,14 +368,24 @@ public class BookHeader implements BookElement {
                 if (name == null || landingText == null) {
                     throw new IllegalStateException("Book name or landing text is unset !");
                 } else {
-                    header = new BookHeader(bookId, name.getKey(), landingText.getKey(), bookTexture, fillerTexture, craftingTexture, textColor, headerColor, nameplateColor, linkColor, linkHoverColor, progressBarColor, progressBarBackground, openSound, flipSound, showProgress, version, subtitle, creativeTab, advancementTab, doNotGenerateBook, customBookItem, showToast, useBlockyFont, i18n, pauseGame, icon);
+                    header = new BookHeader(bookId, name.getString(), landingText.getString(),
+                            bookTexture, fillerTexture, craftingTexture, textColor, headerColor,
+                            nameplateColor, linkColor, linkHoverColor, progressBarColor,
+                            progressBarBackground, openSound, flipSound, showProgress, version,
+                            subtitle, creativeTab, advancementTab, doNotGenerateBook,
+                            customBookItem, showToast, useBlockyFont, i18n, pauseGame, icon);
                 }
             } else {
                 if (nameText == null || landingTextText == null) {
                     throw new IllegalStateException("Book name or landing text is unset !");
                 } else {
 
-                    header = new BookHeader(bookId, nameText, landingTextText, bookTexture, fillerTexture, craftingTexture, textColor, headerColor, nameplateColor, linkColor, linkHoverColor, progressBarColor, progressBarBackground, openSound, flipSound, showProgress, version, subtitle, creativeTab, advancementTab, doNotGenerateBook, customBookItem, showToast, useBlockyFont, i18n, pauseGame, icon);
+                    header = new BookHeader(bookId, nameText, landingTextText, bookTexture,
+                            fillerTexture, craftingTexture, textColor, headerColor, nameplateColor,
+                            linkColor, linkHoverColor, progressBarColor, progressBarBackground,
+                            openSound, flipSound, showProgress, version, subtitle, creativeTab,
+                            advancementTab, doNotGenerateBook, customBookItem, showToast,
+                            useBlockyFont, i18n, pauseGame, icon);
                 }
             }
 
