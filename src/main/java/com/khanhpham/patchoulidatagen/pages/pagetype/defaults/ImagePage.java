@@ -4,7 +4,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.khanhpham.patchoulidatagen.Utils;
 import com.khanhpham.patchoulidatagen.pages.pagetype.PageType;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import org.checkerframework.checker.units.qual.A;
 
@@ -15,7 +16,9 @@ import java.util.ArrayList;
 /**
  * This page is used to display an image
  *
- * @see <a href="https://vazkiimods.github.io/Patchouli/docs/patchouli-basics/page-types/#image-pages">Default Page Types - Images</a>
+ * @see <a href=
+ *      "https://vazkiimods.github.io/Patchouli/docs/patchouli-basics/page-types/#image-pages">Default
+ *      Page Types - Images</a>
  */
 public final class ImagePage implements PageType {
     private final ResourceLocation[] images;
@@ -26,7 +29,8 @@ public final class ImagePage implements PageType {
     @Nullable
     private final String text;
 
-    private ImagePage(ResourceLocation[] images, @Nullable String title, @Nullable Boolean border, @Nullable String text) {
+    private ImagePage(ResourceLocation[] images, @Nullable String title, @Nullable Boolean border,
+            @Nullable String text) {
         this.images = images;
         this.title = title;
         this.border = border;
@@ -96,8 +100,8 @@ public final class ImagePage implements PageType {
             return this;
         }
 
-        public Builder title(TranslatableComponent title) {
-            this.title = title.getKey();
+        public Builder title(Component title) {
+            this.title = title.getString();
             return this;
         }
 
@@ -106,8 +110,8 @@ public final class ImagePage implements PageType {
             return this;
         }
 
-        public Builder text(TranslatableComponent text) {
-            this.text = text.getKey();
+        public Builder text(Component text) {
+            this.text = text.getString();
             return this;
         }
 

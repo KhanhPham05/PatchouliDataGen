@@ -5,7 +5,10 @@ import com.khanhpham.patchoulidatagen.pages.pagetype.PageType;
 
 /**
  * This page can display a link in the bottom of the page
- * @see <a href="https://vazkiimods.github.io/Patchouli/docs/patchouli-basics/page-types#link-pages">Default Page Types - Link Page</a>
+ * 
+ * @see <a href=
+ *      "https://vazkiimods.github.io/Patchouli/docs/patchouli-basics/page-types#link-pages">Default
+ *      Page Types - Link Page</a>
  */
 
 public final class LinkPage implements PageType {

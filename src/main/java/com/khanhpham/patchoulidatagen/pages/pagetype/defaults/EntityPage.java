@@ -3,7 +3,7 @@ package com.khanhpham.patchoulidatagen.pages.pagetype.defaults;
 import com.google.gson.JsonObject;
 import com.khanhpham.patchoulidatagen.Utils;
 import com.khanhpham.patchoulidatagen.pages.pagetype.PageType;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 
@@ -11,7 +11,9 @@ import javax.annotation.Nullable;
 import java.util.Objects;
 
 /**
- * @see <a href="https://vazkiimods.github.io/Patchouli/docs/patchouli-basics/page-types/#entity-pages"> Default Page Types - Entity Pages</a>
+ * @see <a href=
+ *      "https://vazkiimods.github.io/Patchouli/docs/patchouli-basics/page-types/#entity-pages">
+ *      Default Page Types - Entity Pages</a>
  */
 public final class EntityPage implements PageType {
     private final String entity;
@@ -28,7 +30,9 @@ public final class EntityPage implements PageType {
     @Nullable
     private final String text;
 
-    public EntityPage(String entity, @Nullable Float scale, @Nullable Float offset, @Nullable Boolean rotate, @Nullable Float defaultRotation, @Nullable String name, @Nullable String text) {
+    public EntityPage(String entity, @Nullable Float scale, @Nullable Float offset,
+            @Nullable Boolean rotate, @Nullable Float defaultRotation, @Nullable String name,
+            @Nullable String text) {
         this.entity = entity;
         this.scale = scale;
         this.offset = offset;
@@ -79,7 +83,7 @@ public final class EntityPage implements PageType {
         }
 
         public <T extends Entity> Builder entity(EntityType<T> entityType) {
-            this.entity = Objects.requireNonNull(entityType.getRegistryName()).toString();
+            this.entity = Objects.requireNonNull(entityType.toString());
             return this;
         }
 
@@ -108,8 +112,8 @@ public final class EntityPage implements PageType {
             return this;
         }
 
-        public Builder name(TranslatableComponent translatableName) {
-            this.name = translatableName.getKey();
+        public Builder name(Component translatableName) {
+            this.name = translatableName.getString();
             return this;
         }
 
@@ -118,8 +122,8 @@ public final class EntityPage implements PageType {
             return this;
         }
 
-        public Builder text(TranslatableComponent translatableText) {
-            this.text = translatableText.getKey();
+        public Builder text(Component translatableText) {
+            this.text = translatableText.getString();
             return this;
         }
 

@@ -3,14 +3,17 @@ package com.khanhpham.patchoulidatagen.pages.pagetype.defaults;
 import com.google.gson.JsonObject;
 import com.khanhpham.patchoulidatagen.Utils;
 import com.khanhpham.patchoulidatagen.pages.pagetype.PageType;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.ItemLike;
 
 import javax.annotation.Nullable;
 
 /**
  * This page is used to display a specific item in a page
- * @see <a href="https://vazkiimods.github.io/Patchouli/docs/patchouli-basics/page-types/#crafting-recipe-pages"> Default Page Types - Spotlight Page</a>
+ * 
+ * @see <a href=
+ *      "https://vazkiimods.github.io/Patchouli/docs/patchouli-basics/page-types/#crafting-recipe-pages">
+ *      Default Page Types - Spotlight Page</a>
  */
 public final class SpotlightPage implements PageType {
     private final ItemLike spotlightItem;
@@ -24,7 +27,8 @@ public final class SpotlightPage implements PageType {
     @Nullable
     private final String text;
 
-    private SpotlightPage(ItemLike spotlightItem, @Nullable Boolean linkRecipe, @Nullable String title, @Nullable String text) {
+    private SpotlightPage(ItemLike spotlightItem, @Nullable Boolean linkRecipe,
+            @Nullable String title, @Nullable String text) {
         this.spotlightItem = spotlightItem;
         this.linkRecipe = linkRecipe;
         this.title = title;
@@ -42,7 +46,7 @@ public final class SpotlightPage implements PageType {
 
     @Override
     public void toJson(JsonObject json) {
-        json.addProperty("item", this.spotlightItem.asItem().getRegistryName().toString());
+        json.addProperty("item", this.spotlightItem.asItem().toString());
         Utils.optional(json, "title", this.title);
         Utils.optional(json, "text", this.text);
         Utils.optional(json, "link_recipe", this.linkRecipe);
@@ -78,8 +82,8 @@ public final class SpotlightPage implements PageType {
             return this;
         }
 
-        public Builder title(TranslatableComponent title) {
-            this.title = title.getKey();
+        public Builder title(Component title) {
+            this.title = title.getString();
             return this;
         }
 
@@ -88,14 +92,16 @@ public final class SpotlightPage implements PageType {
             return this;
         }
 
-        public Builder text(TranslatableComponent text) {
-            this.text = text.getKey();
+        public Builder text(Component text) {
+            this.text = text.getString();
             return this;
         }
 
         public SpotlightPage build() {
-            if (spotlightItem != null) return new SpotlightPage(spotlightItem, linkRecipe, title, text);
-            else throw new IllegalStateException("Missing spotlight item");
+            if (spotlightItem != null)
+                return new SpotlightPage(spotlightItem, linkRecipe, title, text);
+            else
+                throw new IllegalStateException("Missing spotlight item");
         }
 
     }

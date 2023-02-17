@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[39]"
+loaderVersion = "[44]"
 license = "All Right Reverse"
 
 [[mods]]
@@ -12,8 +12,8 @@ description = '''
 '''
 
 [[dependencies.patchoulidatagen]]
-    modId = "minecraft"
-    mandatory = true
-    versionRange = "[1.18.1]"
-    ordering = "NONE"
-    side = "BOTH"
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.19.3]"
+ordering = "NONE"
+side = "BOTH"

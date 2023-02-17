@@ -1,0 +1,6 @@
+{
+  "description": "test_category.desc",
+  "icon": "minecraft:dirt",
+  "name": "test_category",
+  "secret": false
+}

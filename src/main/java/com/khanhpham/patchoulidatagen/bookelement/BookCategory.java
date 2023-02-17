@@ -1,10 +1,12 @@
 package com.khanhpham.patchoulidatagen.bookelement;
 
 import com.google.gson.JsonObject;
-import net.minecraft.core.Registry;
-import net.minecraft.network.chat.TranslatableComponent;
+
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ItemLike;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.function.Consumer;
@@ -13,13 +15,13 @@ public class BookCategory implements BookElement {
     private final String title;
     private final String description;
     private final ItemLike pageIcon;
-    private final @Nullable
-    Integer sortnum;
+    private final @Nullable Integer sortnum;
     private final Boolean secret;
     private final String saveName;
     private final BookHeader header;
 
-    private BookCategory(BookHeader header, String title, String description, ItemLike pageIcon, @Nullable Integer sortNum, Boolean hidden, String saveName) {
+    private BookCategory(BookHeader header, String title, String description, ItemLike pageIcon,
+            @Nullable Integer sortNum, Boolean hidden, String saveName) {
         this.title = title;
         this.description = description;
         this.pageIcon = pageIcon;
@@ -43,7 +45,7 @@ public class BookCategory implements BookElement {
         JsonObject object = new JsonObject();
         object.addProperty("name", this.title);
         object.addProperty("description", this.description);
-        object.addProperty("icon", Registry.ITEM.getKey(pageIcon.asItem()).toString());
+        object.addProperty("icon", ForgeRegistries.ITEMS.getKey(pageIcon.asItem()).toString());
         if (sortnum != null) {
             object.addProperty("sortnum", sortnum);
         }
@@ -68,8 +70,7 @@ public class BookCategory implements BookElement {
 
         private boolean isDisplaySet = false;
 
-        private Builder() {
-        }
+        private Builder() {}
 
         public static Builder category() {
             return new BookCategory.Builder();
@@ -80,13 +81,14 @@ public class BookCategory implements BookElement {
             return this;
         }
 
-        public Builder setDisplay(TranslatableComponent title, TranslatableComponent description, ItemLike icon) {
+        public Builder setDisplay(Component title, MutableComponent description, ItemLike icon) {
             if (bookHeader.isTranslatable() && !this.isDisplayStringSet) {
                 this.isDisplayComponentSet = true;
-                this.title = title.getKey();
-                this.description = description.getKey();
+                this.title = title.getString();
+                this.description = description.getString();
             } else {
-                throw new IllegalStateException("Use TranslatableComponent components while i18n is not enabled yet OR String component has been already set");
+                throw new IllegalStateException(
+                        "Use Component components while i18n is not enabled yet OR String component has been already set");
             }
             this.pageIcon = icon;
             this.isDisplaySet = true;
@@ -99,7 +101,8 @@ public class BookCategory implements BookElement {
                 this.title = title;
                 this.description = description;
                 this.isDisplaySet = true;
-            } else throw new IllegalStateException("A TranslatableComponent component is already set");
+            } else
+                throw new IllegalStateException("A Component component is already set");
 
             this.pageIcon = icon;
             return this;
@@ -121,10 +124,12 @@ public class BookCategory implements BookElement {
 
         private BookCategory build(Consumer<BookElement> consumer, String saveName) {
             if (!isDisplaySet || bookHeader == null) {
-                throw new IllegalStateException("Category components and parent book file is unset");
+                throw new IllegalStateException(
+                        "Category components and parent book file is unset");
             }
 
-            BookCategory category = new BookCategory(bookHeader, title, description, pageIcon, sortnum, secret, saveName);
+            BookCategory category = new BookCategory(bookHeader, title, description, pageIcon,
+                    sortnum, secret, saveName);
             consumer.accept(category);
             return category;
         }

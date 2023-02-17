@@ -4,7 +4,7 @@ import com.google.gson.JsonObject;
 import com.khanhpham.patchoulidatagen.Utils;
 import com.khanhpham.patchoulidatagen.pages.pagetype.PageType;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
@@ -13,7 +13,10 @@ import javax.annotation.Nullable;
 
 /**
  * This page is used to display a crafting recipe
- * @see <a href="https://vazkiimods.github.io/Patchouli/docs/patchouli-basics/page-types/#crafting-recipe-pages"> Default Page Types - Crafting Recipe Pages</a>
+ * 
+ * @see <a href=
+ *      "https://vazkiimods.github.io/Patchouli/docs/patchouli-basics/page-types/#crafting-recipe-pages">
+ *      Default Page Types - Crafting Recipe Pages</a>
  */
 public final class CraftingRecipePage implements PageType {
     private final ResourceLocation recipe1;
@@ -27,7 +30,8 @@ public final class CraftingRecipePage implements PageType {
     @Nullable
     private final String text;
 
-    private CraftingRecipePage(ResourceLocation recipe1, @Nullable ResourceLocation recipe2, @Nullable String title, @Nullable String text) {
+    private CraftingRecipePage(ResourceLocation recipe1, @Nullable ResourceLocation recipe2,
+            @Nullable String title, @Nullable String text) {
         this.recipe1 = recipe1;
         this.recipe2 = recipe2;
         this.title = title;
@@ -40,7 +44,8 @@ public final class CraftingRecipePage implements PageType {
     }
 
     @Override
-    public void toJson(JsonObject json) {json.addProperty("recipe", recipe1.toString());
+    public void toJson(JsonObject json) {
+        json.addProperty("recipe", recipe1.toString());
         Utils.optional(json, "recipe2", recipe2);
         Utils.optional(json, "title", this.title);
         Utils.optional(json, "text", this.text);
@@ -55,9 +60,11 @@ public final class CraftingRecipePage implements PageType {
     private void checkRecipe(JsonObject json, ResourceLocation recipe, String key) {
         Level level = Minecraft.getInstance().level;
         if (level != null) {
-            level.getRecipeManager().byKey(recipe).ifPresentOrElse(r -> json.addProperty(key, r.toString()), () -> {
-                throw new IllegalStateException("Recipe [" + recipe + "] not present");
-            });
+            level.getRecipeManager()
+                .byKey(recipe)
+                .ifPresentOrElse(r -> json.addProperty(key, r.toString()), () -> {
+                    throw new IllegalStateException("Recipe [" + recipe + "] not present");
+                });
         }
     }
 
@@ -77,7 +84,7 @@ public final class CraftingRecipePage implements PageType {
         }
 
         public Builder mainRecipe(ItemLike recipeByOutput) {
-            this.recipe1 = recipeByOutput.asItem().getRegistryName();
+            this.recipe1 = ResourceLocation.tryParse(recipeByOutput.asItem().toString());
             return this;
         }
 
@@ -87,7 +94,7 @@ public final class CraftingRecipePage implements PageType {
         }
 
         public Builder secondaryRecipe(ItemLike recipeAsOutput) {
-            this.recipe2 = recipeAsOutput.asItem().getRegistryName();
+            this.recipe2 = ResourceLocation.tryParse(recipeAsOutput.asItem().toString());
             return this;
         }
 
@@ -101,8 +108,8 @@ public final class CraftingRecipePage implements PageType {
             return this;
         }
 
-        public Builder title(TranslatableComponent translatableTitle) {
-            this.title = translatableTitle.getKey();
+        public Builder title(Component translatableTitle) {
+            this.title = translatableTitle.getString();
             return this;
         }
 
@@ -111,15 +118,17 @@ public final class CraftingRecipePage implements PageType {
             return this;
         }
 
-        public Builder text(TranslatableComponent translatableText) {
-            this.text = translatableText.getKey();
+        public Builder text(Component translatableText) {
+            this.text = translatableText.getString();
             return this;
         }
 
         public CraftingRecipePage build() {
             if (recipe1 == null) {
-                throw new IllegalStateException("Main crafting recipe is mandatory, but it is undefined");
-            } else return new CraftingRecipePage(recipe1, recipe2, title, text);
+                throw new IllegalStateException(
+                        "Main crafting recipe is mandatory, but it is undefined");
+            } else
+                return new CraftingRecipePage(recipe1, recipe2, title, text);
         }
     }
 }
