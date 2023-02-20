@@ -8,17 +8,18 @@ add those line in your `build.gradle` file
 
 ```gradle
 repositories {
-  maven {
-    url = "https://www.cursemaven.com/"
-  }
+  mavenCentral()
 }
 
 dependencies {
 
   //Please put this line BELOW the minecraft dependency
-  implementation fg.deobf('curse.maven:patchouli-datagen-ptd-lib-585667:${file_id}')
+  implementation fg.deobf('io.github.realyusufismail:patchouli-datagen:${version}')
 }
 ```
 
-## How to check for ${file_id} ?
-go to https://www.curseforge.com/minecraft/mc-mods/patchouli-datagen-ptd-lib/files then find and click on a version that you want to use, then the file id is the number in the end of the link, you can you that number to install the proper lib version
+## How to check for version
+
+See below for the latest version
+
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.realyusufismail/patchouli-datagen/badge.svg)](https://maven-badges.herokuapp.com/maven-central/realyusufismail/patchouli-datagen)

@@ -2,14 +2,36 @@ plugins {
     id 'java'
     id 'eclipse'
     id 'maven-publish'
+    id 'signing'
     id "com.diffplug.spotless" version "6.13.0"
     id 'net.minecraftforge.gradle' version '5.1.+'
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
 }
 
-version = '1.0'
-group = 'com.khanhpham.patchoulidatagen'
+version = '1.0.0'
+group = 'io.github.realyusufismail' //used for maven publishing
 archivesBaseName = 'patchoulidatagen'
+
+
+ext {
+    dev_id = 'yusuf'
+    dev_name = 'Yusuf Ismail'
+    dev_email = 'yusufgamer222@gmail.com'
+    dev_organization = 'RealYusufIsmail'
+    dev_organizationUrl = 'https://github.com/RealYusufIsmail'
+
+    dev2_id = 'KhanhPham05'
+    dev2_name = 'KhanhTypo'
+    dev2_email = 'null'
+    dev2_organization = 'KhanhPham05'
+    dev2_organizationUrl = 'https://github.com/KhanhPham05'
+
+    gpl_name = 'MIT License'
+    gpl_url = 'https://github.com/KhanhPham05/PatchouliDataGen/blob/master/LICENSE'
+
+    // Make sure we have a default for initial configuration evaluation
+    isReleaseVersion = false
+}
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
@@ -146,15 +168,93 @@ jar {
 
 jar.finalizedBy('reobfJar')
 
+javadoc {
+    if (JavaVersion.current().isJava8Compatible()) {
+        options.addStringOption('Xdoclint:none', '-quiet')
+        logging.captureStandardError LogLevel.INFO
+        logging.captureStandardOutput LogLevel.INFO
+    }
+
+    if (JavaVersion.current().isJava9Compatible()) {
+        options.addBooleanOption('html5', true)
+    }
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+afterEvaluate { project ->
+    ext.isReleaseVersion = !version.endsWith("RELEASE")
+}
+
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            artifact jar
+            //artifactId = project.artifactId // or maybe archiveBaseName?
+            from components.java
+            pom {
+                name = project.archivesBaseName
+                description = project.description
+                url = "https://github.com/RealYusufIsmail/YDW"
+                packaging = "jar"
+
+                licenses {
+                    license {
+                        name = "${gpl_name}"
+                        url = "${gpl_url}"
+                    }
+                }
+                developers {
+                    developer {
+                        id = "${dev_id}"
+                        name = "${dev_name}"
+                        email = "${dev_email}"
+                        organization = "${dev_organization}"
+                        organizationUrl = "${dev_organizationUrl}"
+                    }
+                    developer {
+                        id = "${dev2_id}"
+                        name = "${dev2_name}"
+                        email = "${dev2_email}"
+                        organization = "${dev2_organization}"
+                        organizationUrl = "${dev2_organizationUrl}"
+                    }
+                }
+                scm {
+                    connection = 'https://github.com/RealYusufIsmail/YDW.git'
+                    developerConnection = 'scm:git:ssh://git@github.com/RealYusufIsmail/YDW.git'
+                    url = 'github.com/YusufsDiscordbot/YDL'
+                }
+            }
         }
     }
     repositories {
         maven {
-            url "file://${project.projectDir}/mcmodsrepo"
+            afterEvaluate { project ->
+                def releaseRepo = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+                def snapshotRepo = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+                url = (isReleaseVersion) ? releaseRepo : snapshotRepo
+
+                //println "repos: " + version
+                //println "repos: " + isReleaseVersion
+                //println url
+
+                credentials {
+                    username = project.hasProperty('MAVEN_USERNAME') ? ossrhUsername : "Unknown user"
+                    password = project.hasProperty('MAVEN_USERNAME') ? ossrhPassword : "Unknown password"
+                }
+            }
         }
+    }
+}
+
+signing {
+    afterEvaluate { project ->
+        //println "sign: " + version
+        //println "sign: " + isReleaseVersion
+        required { isReleaseVersion && gradle.taskGraph.hasTask("publish") }
+        sign publishing.publications.mavenJava
     }
 }
